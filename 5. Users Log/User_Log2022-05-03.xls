@@ -1,0 +1,47 @@
+
+                        <table class="table" bordered="1">  
+                          <TR>
+                            <TH>ID</TH>
+                            <TH>Name</TH>
+                            <TH>Serial Number</TH>
+                            <TH>Fingerprint ID</TH>
+                            <TH>Date log</TH>
+                            <TH>Time In</TH>
+                            <TH>Time Out</TH>
+                          </TR>
+                              <TR> 
+                                  <TD> 4</TD>
+                                  <TD> Linh</TD>
+                                  <TD> 10118384</TD>
+                                  <TD> 2</TD>
+                                  <TD> 2022-05-03</TD>
+                                  <TD> 21:14:36</TD>
+                                  <TD> 21:15:51</TD>
+                              </TR>
+                              <TR> 
+                                  <TD> 3</TD>
+                                  <TD> Hau</TD>
+                                  <TD> 10118383</TD>
+                                  <TD> 1</TD>
+                                  <TD> 2022-05-03</TD>
+                                  <TD> 21:14:32</TD>
+                                  <TD> 21:15:57</TD>
+                              </TR>
+                              <TR> 
+                                  <TD> 2</TD>
+                                  <TD> Linh</TD>
+                                  <TD> 10118384</TD>
+                                  <TD> 2</TD>
+                                  <TD> 2022-05-03</TD>
+                                  <TD> 21:10:36</TD>
+                                  <TD> 21:15:51</TD>
+                              </TR>
+                              <TR> 
+                                  <TD> 1</TD>
+                                  <TD> Hau</TD>
+                                  <TD> 10118383</TD>
+                                  <TD> 1</TD>
+                                  <TD> 2022-05-03</TD>
+                                  <TD> 21:08:55</TD>
+                                  <TD> 21:15:57</TD>
+                              </TR></table>
