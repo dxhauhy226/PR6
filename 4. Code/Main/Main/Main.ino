@@ -803,22 +803,22 @@ int getFingerprintID() {
   switch (p) {
     case FINGERPRINT_OK:
       //Serial.println("Image taken");
-      buz_true();
+      //buz_true();
       break;
     case FINGERPRINT_NOFINGER:
       //Serial.println("No finger detected");
       return 0;
     case FINGERPRINT_PACKETRECIEVEERR:
       //Serial.println("Communication error");
-      buz_fail();
+      //buz_fail();
       return -2;
     case FINGERPRINT_IMAGEFAIL:
       //Serial.println("Imaging error");
-      buz_fail();
+      //buz_fail();
       return -2;
     default:
       //Serial.println("Unknown error");
-      buz_fail();
+      //buz_fail();
       return -2;
   }
   // OK success!
@@ -971,7 +971,7 @@ uint8_t getFingerprintEnroll() {
     switch (p) {
     case FINGERPRINT_OK:
       //Serial.println("Image taken");
-      buz_true();
+      //buz_true();
       display.clearDisplay();
       display.drawBitmap( 34, 0, FinPr_valid_bits, FinPr_valid_width, FinPr_valid_height, WHITE);
       display.display();
@@ -985,13 +985,13 @@ uint8_t getFingerprintEnroll() {
       display.display();
       break;
     case FINGERPRINT_PACKETRECIEVEERR:
-      buz_fail();
+      //buz_fail();
       display.clearDisplay();
       display.drawBitmap( 34, 0, FinPr_invalid_bits, FinPr_invalid_width, FinPr_invalid_height, WHITE);
       display.display();
       break;
     case FINGERPRINT_IMAGEFAIL:
-      buz_fail();
+      //buz_fail();
       Serial.println("Imaging error");
       break;
     default:
@@ -1051,7 +1051,7 @@ uint8_t getFingerprintEnroll() {
     switch (p) {
     case FINGERPRINT_OK:
       //Serial.println("Image taken");
-      buz_true();
+      //buz_true();
       display.clearDisplay();
       display.drawBitmap( 34, 0, FinPr_valid_bits, FinPr_valid_width, FinPr_valid_height, WHITE);
       display.display();
@@ -1065,11 +1065,11 @@ uint8_t getFingerprintEnroll() {
       display.display();
       break;
     case FINGERPRINT_PACKETRECIEVEERR:
-      buz_fail();
+      //buz_fail();
       Serial.println("Communication error");
       break;
     case FINGERPRINT_IMAGEFAIL:
-      buz_fail();
+      //buz_fail();
       Serial.println("Imaging error");
       break;
     default:
@@ -1217,7 +1217,7 @@ void connectToWiFi(){
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());  //IP address assigned to your ESP
 }
-
+/*
 void buz_true()
 {
   digitalWrite(buz, HIGH);
@@ -1229,4 +1229,4 @@ void buz_fail()
   digitalWrite(buz, HIGH);
   delay(2000);
   digitalWrite(buz, LOW);
-}
+}*/
