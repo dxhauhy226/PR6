@@ -5,7 +5,10 @@
 #include <ESP8266WiFi.h>
 #include <SoftwareSerial.h>
 #include <ESP8266WebServer.h>
+#include <DNSServer.h>
 #include <ESP8266HTTPClient.h>
+
+#include "WiFiManager.h"          //https://github.com/tzapu/WiFiManager
 #include <Adafruit_GFX.h>          //https://github.com/adafruit/Adafruit-GFX-Library
 #include <Adafruit_SSD1306.h>      //https://github.com/adafruit/Adafruit_SSD1306
 #include <Adafruit_Fingerprint.h>  //https://github.com/adafruit/Adafruit-Fingerprint-Sensor-Library
@@ -13,6 +16,8 @@
 //Fingerprint scanner Pins
 #define Finger_Rx 14 //D5
 #define Finger_Tx 12 //D6
+//Buzzer pin
+#define buz 15       //D8
 // Declaration for SSD1306 display connected using software I2C
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
@@ -622,11 +627,14 @@ const uint8_t PROGMEM FinPr_scan_bits[] = {
 void setup() {
  
   Serial.begin(115200);
+
+  pinMode(buz, OUTPUT);
+  digitalWrite(buz, LOW); //Turn off buzzer
   
   //-----------initiate OLED display-------------
   
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3C for 128x64
     Serial.println(F("SSD1306 allocation failed"));
     for(;;); // Don't proceed, loop forever
   }
@@ -795,18 +803,22 @@ int getFingerprintID() {
   switch (p) {
     case FINGERPRINT_OK:
       //Serial.println("Image taken");
+      buz_true();
       break;
     case FINGERPRINT_NOFINGER:
       //Serial.println("No finger detected");
       return 0;
     case FINGERPRINT_PACKETRECIEVEERR:
       //Serial.println("Communication error");
+      buz_fail();
       return -2;
     case FINGERPRINT_IMAGEFAIL:
       //Serial.println("Imaging error");
+      buz_fail();
       return -2;
     default:
       //Serial.println("Unknown error");
+      buz_fail();
       return -2;
   }
   // OK success!
@@ -959,6 +971,7 @@ uint8_t getFingerprintEnroll() {
     switch (p) {
     case FINGERPRINT_OK:
       //Serial.println("Image taken");
+      buz_true();
       display.clearDisplay();
       display.drawBitmap( 34, 0, FinPr_valid_bits, FinPr_valid_width, FinPr_valid_height, WHITE);
       display.display();
@@ -972,11 +985,13 @@ uint8_t getFingerprintEnroll() {
       display.display();
       break;
     case FINGERPRINT_PACKETRECIEVEERR:
+      buz_fail();
       display.clearDisplay();
       display.drawBitmap( 34, 0, FinPr_invalid_bits, FinPr_invalid_width, FinPr_invalid_height, WHITE);
       display.display();
       break;
     case FINGERPRINT_IMAGEFAIL:
+      buz_fail();
       Serial.println("Imaging error");
       break;
     default:
@@ -1036,6 +1051,7 @@ uint8_t getFingerprintEnroll() {
     switch (p) {
     case FINGERPRINT_OK:
       //Serial.println("Image taken");
+      buz_true();
       display.clearDisplay();
       display.drawBitmap( 34, 0, FinPr_valid_bits, FinPr_valid_width, FinPr_valid_height, WHITE);
       display.display();
@@ -1049,9 +1065,11 @@ uint8_t getFingerprintEnroll() {
       display.display();
       break;
     case FINGERPRINT_PACKETRECIEVEERR:
+      buz_fail();
       Serial.println("Communication error");
       break;
     case FINGERPRINT_IMAGEFAIL:
+      buz_fail();
       Serial.println("Imaging error");
       break;
     default:
@@ -1155,6 +1173,13 @@ void confirmAdding(){
   http.end();  //Close connection
 }
 //********************connect to the WiFi******************
+void configModeCallback (WiFiManager *myWiFiManager)
+{
+  Serial.println("Entered config mode");
+  Serial.println(WiFi.softAPIP());
+  Serial.println(myWiFiManager->getConfigPortalSSID());
+}
+
 void connectToWiFi(){
     WiFi.mode(WIFI_OFF);        //Prevents reconnection issue (taking too long to connect)
     delay(1000);
@@ -1191,4 +1216,17 @@ void connectToWiFi(){
     
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());  //IP address assigned to your ESP
+}
+
+void buz_true()
+{
+  digitalWrite(buz, HIGH);
+  delay(500);
+  digitalWrite(buz, LOW);
+}
+void buz_fail()
+{
+  digitalWrite(buz, HIGH);
+  delay(2000);
+  digitalWrite(buz, LOW);
 }
