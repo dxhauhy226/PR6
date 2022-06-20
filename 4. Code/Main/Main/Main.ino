@@ -31,7 +31,7 @@ const char *ssid = "HauDX";  //ENTER YOUR WIFI SETTINGS
 const char *password = "12345678";
 //************************************************************************
 String postData ; // post array that will be send to the website
-String link = "http://192.168.1.9/biometricattendance/getdata.php"; //computer IP or the server domain
+String link = "http://172.20.10.2/biometricattendance/getdata.php"; //computer IP or the server domain
 int FingerID = 0;     // The Fingerprint ID from the scanner 
 uint8_t id;
 WiFiClient wifiClient;
@@ -801,15 +801,12 @@ int getFingerprintID() {
   uint8_t p = finger.getImage();
   switch (p) {
     case FINGERPRINT_OK:
-      //Serial.println("Image taken");
-      //buz_true();
       break;
     case FINGERPRINT_NOFINGER:
       //Serial.println("No finger detected");
       return 0;
     case FINGERPRINT_PACKETRECIEVEERR:
       //Serial.println("Communication error");
-      //buz_fail();
       return -2;
     case FINGERPRINT_IMAGEFAIL:
       //Serial.println("Imaging error");
@@ -817,7 +814,6 @@ int getFingerprintID() {
       return -2;
     default:
       //Serial.println("Unknown error");
-      //buz_fail();
       return -2;
   }
   // OK success!
@@ -970,7 +966,6 @@ uint8_t getFingerprintEnroll() {
     switch (p) {
     case FINGERPRINT_OK:
       //Serial.println("Image taken");
-      //buz_true();
       display.clearDisplay();
       display.drawBitmap( 34, 0, FinPr_valid_bits, FinPr_valid_width, FinPr_valid_height, WHITE);
       display.display();
@@ -984,13 +979,11 @@ uint8_t getFingerprintEnroll() {
       display.display();
       break;
     case FINGERPRINT_PACKETRECIEVEERR:
-      //buz_fail();
       display.clearDisplay();
       display.drawBitmap( 34, 0, FinPr_invalid_bits, FinPr_invalid_width, FinPr_invalid_height, WHITE);
       display.display();
       break;
     case FINGERPRINT_IMAGEFAIL:
-      //buz_fail();
       Serial.println("Imaging error");
       break;
     default:
@@ -1210,6 +1203,7 @@ void connectToWiFi(){
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());  //IP address assigned to your ESP
 }
+
 /*
 void buz_true()
 {
