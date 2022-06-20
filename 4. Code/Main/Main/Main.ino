@@ -27,8 +27,8 @@ SoftwareSerial mySerial(Finger_Rx, Finger_Tx);
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);
 //************************************************************************
 /* Set these to your desired credentials. */
-const char *ssid = "VIETTEL_Tang4";  //ENTER YOUR WIFI SETTINGS
-const char *password = "quyen1970";
+const char *ssid = "HauDX";  //ENTER YOUR WIFI SETTINGS
+const char *password = "12345678";
 //************************************************************************
 String postData ; // post array that will be send to the website
 String link = "http://192.168.1.9/biometricattendance/getdata.php"; //computer IP or the server domain
